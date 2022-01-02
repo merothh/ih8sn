@@ -14,6 +14,37 @@ void property_override(char const prop[], char const value[], bool add = false) 
     }
 }
 
+#define FIND_AND_REMOVE(s, delimiter, variable_name) \
+    std::string variable_name = s.substr(0, s.find(delimiter)); \
+    s.erase(0, s.find(delimiter) + delimiter.length());
+
+#define APPEND_STRING(s, to_append) \
+    s.append(" "); \
+    s.append(to_append);
+
+std::string fingerprint_to_description(std::string fingerprint) {
+    std::string delimiter = "/";
+    std::string delimiter2 = ":";
+    std::string build_fingerprint_copy = fingerprint;
+
+    FIND_AND_REMOVE(build_fingerprint_copy, delimiter, brand)
+    FIND_AND_REMOVE(build_fingerprint_copy, delimiter, product)
+    FIND_AND_REMOVE(build_fingerprint_copy, delimiter2, device)
+    FIND_AND_REMOVE(build_fingerprint_copy, delimiter, platform_version)
+    FIND_AND_REMOVE(build_fingerprint_copy, delimiter, build_id)
+    FIND_AND_REMOVE(build_fingerprint_copy, delimiter2, build_number)
+    FIND_AND_REMOVE(build_fingerprint_copy, delimiter, build_variant)
+    std::string build_version_tags = build_fingerprint_copy;
+
+    std::string description = product + "-" + build_variant;
+    APPEND_STRING(description, platform_version)
+    APPEND_STRING(description, build_id)
+    APPEND_STRING(description, build_number)
+    APPEND_STRING(description, build_version_tags)
+
+    return description;
+}
+
 std::map<std::string, std::string> load_config() {
     std::map<std::string, std::string> config;
 
@@ -48,7 +79,6 @@ int main(int argc, char *argv[]) {
 
     const auto config = load_config();
     const auto build_fingerprint = config.find("BUILD_FINGERPRINT");
-    const auto build_description = config.find("BUILD_DESCRIPTION");
     const auto build_security_patch_date = config.find("BUILD_SECURITY_PATCH_DATE");
     const auto build_tags = config.find("BUILD_TAGS");
     const auto build_type = config.find("BUILD_TYPE");
@@ -68,6 +98,8 @@ int main(int argc, char *argv[]) {
         }) {
             property_override(prop, build_fingerprint->second.c_str());
         }
+        property_override("ro.build.description",
+                fingerprint_to_description(build_fingerprint->second).c_str());
     }
 
     if (is_init_stage && build_tags != config.end()) {
@@ -113,10 +145,6 @@ int main(int argc, char *argv[]) {
         }) {
             property_override(prop, build_version_release->second.c_str());
         }
-    }
-
-    if (is_init_stage && build_description != config.end()) {
-        property_override("ro.build.description", build_description->second.c_str());
     }
 
     if (is_boot_completed_stage && build_security_patch_date != config.end()) {
