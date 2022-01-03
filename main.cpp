@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
                     fingerprint_to_description(build_fingerprint->second));
         }
 
-        set_props_from_config(config, "BUILD_TAGS", BUILD_TAGS_PROPS);
+        properties_override(BUILD_TAGS_PROPS, "release-keys");
         set_props_from_config(config, "BUILD_TYPE", BUILD_TYPE_PROPS);
         property_override("ro.debuggable", "0");
     }
