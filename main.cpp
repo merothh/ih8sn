@@ -93,12 +93,7 @@ int main(int argc, char *argv[]) {
 
     set_props_from_config(config, "PRODUCT_NAME", PRODUCT_NAME_PROPS);
 
-    property_override("ro.boot.flash.locked", "1");
-    property_override("ro.boot.vbmeta.device_state", "locked");
     property_override("ro.boot.verifiedbootstate", "green");
-    property_override("ro.boot.veritymode", "enforcing");
-    property_override("ro.boot.warranty_bit", "0");
-    property_override("ro.warranty_bit", "0");
 
     return 0;
 }
