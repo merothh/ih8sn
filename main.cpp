@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
         }
 
         properties_override(BUILD_TAGS_PROPS, "release-keys");
-        set_props_from_config(config, "BUILD_TYPE", BUILD_TYPE_PROPS);
+        properties_override(BUILD_TYPE_PROPS, "user");
         property_override("ro.debuggable", "0");
     }
 
