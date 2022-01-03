@@ -14,7 +14,10 @@ CXXFLAGS = \
 	-Wextra
 
 OBJS = \
-	main.o
+	main.o \
+	config.o \
+	properties.o \
+	utils.o
 
 OBJS += \
 	aosp/bionic/libc/bionic/system_property_api.o \
