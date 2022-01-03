@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
 
         set_props_from_config(config, "BUILD_TAGS", BUILD_TAGS_PROPS);
         set_props_from_config(config, "BUILD_TYPE", BUILD_TYPE_PROPS);
-        set_prop_from_config(config, "DEBUGGABLE", "ro.debuggable");
+        property_override("ro.debuggable", "0");
     }
 
     if (is_boot_completed_stage) {
