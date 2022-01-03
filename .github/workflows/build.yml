@@ -14,7 +14,7 @@ jobs:
         unzip android-ndk-r21-linux-x86_64.zip
     - name: Build (AArch64)
       run: |
-        ANDROID_NDK_HOME=./android-ndk-r21 CXX=aarch64-linux-android29-clang++ ./build.sh
+        ARCH=aarch64 make
         zip -r ih8sn-aarch64.zip etc/ ih8sn push.sh
     - uses: actions/upload-artifact@v1
       with:
@@ -22,7 +22,7 @@ jobs:
         path: ih8sn-aarch64.zip
     - name: Build (ARMv7-A)
       run: |
-        ANDROID_NDK_HOME=./android-ndk-r21 CXX=armv7a-linux-androideabi29-clang++ ./build.sh
+        ARCH=armv7a make
         zip -r ih8sn-armv7a.zip etc/ ih8sn push.sh
     - uses: actions/upload-artifact@v1
       with:
@@ -30,7 +30,7 @@ jobs:
         path: ih8sn-armv7a.zip
     - name: Build (i686)
       run: |
-        ANDROID_NDK_HOME=./android-ndk-r21 CXX=i686-linux-android29-clang++ ./build.sh
+        ARCH=i686 make
         zip -r ih8sn-i686.zip etc/ ih8sn push.sh
     - uses: actions/upload-artifact@v1
       with:
@@ -38,7 +38,7 @@ jobs:
         path: ih8sn-i686.zip
     - name: Build (x86_64)
       run: |
-        ANDROID_NDK_HOME=./android-ndk-r21 CXX=x86_64-linux-android29-clang++ ./build.sh
+        ARCH=x86_64 make
         zip -r ih8sn-x86_64.zip etc/ ih8sn push.sh
     - uses: actions/upload-artifact@v1
       with:
