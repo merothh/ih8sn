@@ -9,9 +9,9 @@ adb wait-for-device push etc/ih8sn.rc /system/etc/init/
 SERIALNO=$(adb shell getprop ro.boot.serialno)
 PRODUCT=$(adb shell getprop ro.build.product)
 
-if [[ -f "ih8sn.conf.${SERIALNO}" ]]; then
+if [[ -f "etc/ih8sn.conf.${SERIALNO}" ]]; then
     adb wait-for-device push etc/ih8sn.conf.${SERIALNO} /system/etc/ih8sn.conf
-elif [[ -f "ih8sn.conf.${PRODUCT}" ]]; then
+elif [[ -f "etc/ih8sn.conf.${PRODUCT}" ]]; then
     adb wait-for-device push etc/ih8sn.conf.${PRODUCT} /system/etc/ih8sn.conf
 else
     adb wait-for-device push etc/ih8sn.conf /system/etc/
